@@ -1,14 +1,8 @@
 <?php
-/**
- * Read module configuration
- *
- * @package     Core
- * @subpackage  Blue
- * @author      chajr <chajr@bluetree.pl>
- */
-namespace Core\Blue\Model;
-use Loader;
+namespace Configuration;
+
 use Exception;
+
 class Configuration extends Object
 {
     /**
@@ -38,13 +32,9 @@ class Configuration extends Object
      */
     protected function _loadModuleConfiguration($module)
     {
-        $module = Loader::code2name($module);
-        try {
+        //$module = Loader::code2name($module);
             $mainConfig     = $this->_getConfiguration($module);
             return $mainConfig;
-        } catch (Exception $e) {
-            Loader::exceptions($e);
-        }
 
         return [];
     }
@@ -133,7 +123,7 @@ class Configuration extends Object
     protected function _configCache($data = NULL)
     {
         /** @var Cache $cache */
-        $cache = Loader::getObject('Core\Blue\Model\Cache');
+        //$cache = Loader::getObject('Core\Blue\Model\Cache');
         if ($data) {
             $readyData = serialize($data);
             return $cache->setCache('main_configuration', $readyData);

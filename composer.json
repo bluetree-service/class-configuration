@@ -1,0 +1,25 @@
+{
+    "name": "bluetree-service/configuration",
+    "type": "library",
+    "license": "Apache-2.0",
+    "description": "",
+    "keywords": [],
+    "homepage": "https://github.com/bluetree-service/benchmark",
+    "version": "0.1.0",
+    "authors": [
+        {
+            "name": "Michał Adamiak",
+            "email": "chajr@bluetree.pl",
+            "homepage": "https://github.com/chajr",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Configuration\\": "src/"
+        }
+    }
+}
