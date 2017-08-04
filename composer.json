@@ -5,7 +5,7 @@
     "description": "",
     "keywords": [],
     "homepage": "https://github.com/bluetree-service/benchmark",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "Michał Adamiak",
@@ -15,11 +15,11 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.5.0"
     },
     "autoload": {
         "psr-4": {
-            "Configuration\\": "src/"
+            "BlueConfig\\": "src/"
         }
     }
 }

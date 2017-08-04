@@ -13,14 +13,14 @@ class Configuration extends Object
         $mainConfig = $this->_configCache();
 
         if (!$mainConfig) {
-            $coreConfig     = $this->_loadModuleConfiguration('Core');
-            $otherConfig    = $this->_loadEnabledModulesConfiguration($coreConfig['modules']);
-            $mainConfig     = array_merge_recursive($coreConfig, $otherConfig);
+            $coreConfig = $this->loadModuleConfiguration('Core');
+            $otherConfig = $this->loadEnabledModulesConfiguration($coreConfig['modules']);
+            $mainConfig = array_merge_recursive($coreConfig, $otherConfig);
             $this->_configCache($mainConfig);
         }
 
         parent::__construct($mainConfig);
-        $newData = $this->traveler('_convertToObject');
+        $newData = $this->traveler('convertToObject');
         $this->setData($newData);
     }
 
@@ -30,11 +30,11 @@ class Configuration extends Object
      * @param string $module
      * @return array
      */
-    protected function _loadModuleConfiguration($module)
+    protected function loadModuleConfiguration($module)
     {
         //$module = Loader::code2name($module);
-            $mainConfig     = $this->_getConfiguration($module);
-            return $mainConfig;
+        $mainConfig = $this->getConfiguration($module);
+        return $mainConfig;
 
         return [];
     }
@@ -46,7 +46,7 @@ class Configuration extends Object
      * @return string
      * @throws Exception
      */
-    protected function _getConfiguration($module)
+    protected function getConfiguration($module)
     {
         if ($module === 'Core') {
             $basePath = CORE_LIB . 'config.';
@@ -55,24 +55,25 @@ class Configuration extends Object
             $basePath = CORE_LIB . $libPath . '/etc/config.';
         }
 
-        $ini    = $basePath . 'ini';
-        $json   = $basePath . 'json';
-        $php    = $basePath . 'php';
+        $ini = $basePath . 'ini';
+        $json = $basePath . 'json';
+        $php = $basePath . 'php';
 
-        switch (TRUE) {
+        switch (true) {
             case file_exists($ini):
-                return parse_ini_file($ini, TRUE);
+                return parse_ini_file($ini, true);
 
             case file_exists($json):
                 $data = file_get_contents($json);
-                return json_decode($data, TRUE);
+                return json_decode($data, true);
 
             case file_exists($php):
-                return file_get_contents($php, TRUE);
+                return file_get_contents($php, true);
 
             default:
                 throw new Exception (
-                    'Missing ' . $module
+                    'Missing '
+                    . $module
                     . " configuration:\n    $ini\n    $json\n    $php"
                 );
                 break;
@@ -85,12 +86,12 @@ class Configuration extends Object
      * @param array $modules
      * @return array
      */
-    protected function _loadEnabledModulesConfiguration($modules)
+    protected function loadEnabledModulesConfiguration($modules)
     {
         $modulesConfiguration = [];
         foreach ($modules as $moduleName => $enabled) {
             if ($enabled === 'enabled') {
-                $configuration = $this->_loadModuleConfiguration($moduleName);
+                $configuration = $this->loadModuleConfiguration($moduleName);
                 $modulesConfiguration = array_merge_recursive($modulesConfiguration, $configuration);
             }
         }
@@ -105,7 +106,7 @@ class Configuration extends Object
      * @param mixed $data
      * @return Object
      */
-    protected function _convertToObject($key, $data)
+    protected function convertToObject($key, $data)
     {
         if (is_array($data)) {
             return new Object($data);
@@ -120,7 +121,7 @@ class Configuration extends Object
      * @param null|mixed $data
      * @return bool|void
      */
-    protected function _configCache($data = NULL)
+    protected function configCache($data = NULL)
     {
         /** @var Cache $cache */
         //$cache = Loader::getObject('Core\Blue\Model\Cache');
