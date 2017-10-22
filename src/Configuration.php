@@ -8,7 +8,7 @@ class Configuration extends Object
     /**
      * read all configurations, merge them and set as DATA
      */
-    public function __construct()
+    public function __construct($config)
     {
         $mainConfig = $this->_configCache();
 
@@ -88,15 +88,14 @@ class Configuration extends Object
      */
     protected function loadEnabledModulesConfiguration($modules)
     {
-        $modulesConfiguration = [];
+        $config = [];
         foreach ($modules as $moduleName => $enabled) {
             if ($enabled === 'enabled') {
-                $configuration = $this->loadModuleConfiguration($moduleName);
-                $modulesConfiguration = array_merge_recursive($modulesConfiguration, $configuration);
+                $config[] = $this->loadModuleConfiguration($moduleName);
             }
         }
 
-        return $modulesConfiguration;
+        return array_merge_recursive(...$config);
     }
 
     /**
